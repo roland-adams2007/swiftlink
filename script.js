@@ -101,10 +101,20 @@ function isValidUrl(string) {
    ============================================================== */
 // const alias = window.location.pathname.slice(1).trim();
 
-const alias = window.location.href.trim();
+/* ==============================================================
+   5. ALIAS DETECTION + FAST REDIRECT (Full URL Mode)
+   ============================================================== */
+const path = window.location.pathname.trim();
+const aliasPath = path.replace(/^\/+|\/+$/g, '');
 
-if (alias) {
-    // Show loading overlay
+
+if (aliasPath && aliasPath.toLowerCase() !== 'index.html') {
+    const formSection = document.getElementById('urlForm');
+    const resultSection = document.getElementById('result');
+    if (formSection) formSection.classList.add('hidden');
+    if (resultSection) resultSection.classList.add('hidden');
+
+    // Show redirect overlay
     const overlay = document.createElement('div');
     overlay.id = 'redirectOverlay';
     overlay.className = 'fixed inset-0 bg-white flex items-center justify-center z-50';
@@ -117,25 +127,24 @@ if (alias) {
     document.body.appendChild(overlay);
     lucide.createIcons();
 
-    // Use the NORMAL endpoint for redirect (you know this works)
-    const endpoint = `${API_ENDPOINTs.fast}/url?alias=${alias}`;
+    const fullAliasUrl = window.location.href.trim();
+
+    // API endpoint — send full alias URL
+    const endpoint = `${API_ENDPOINTs.fast}/url?alias=${encodeURIComponent(fullAliasUrl)}`;
 
     fetch(endpoint, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
     })
-        .then(r => {
-            return r.json();
-        })
+        .then(r => r.json())
         .then(res => {
             overlay.remove();
 
-            if (res.status == 200 && res.data?.orginalUrl) {
+            if (res.status === 200 && res.data?.orginalUrl) {
                 window.location.href = res.data.orginalUrl;
             } else {
                 showBig404();
             }
-
         })
         .catch(err => {
             console.error('Redirect failed:', err);
@@ -143,6 +152,7 @@ if (alias) {
             showBig404();
         });
 }
+
 
 /* ==============================================================
    6. BIG 404 PAGE (on any error)
