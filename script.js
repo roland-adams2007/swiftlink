@@ -116,7 +116,7 @@ if (alias) {
     lucide.createIcons();
 
     // Use the NORMAL endpoint for redirect (you know this works)
-    const endpoint = `${API_ENDPOINTs.normal}/url/get?alias=${alias}`;
+    const endpoint = `${API_ENDPOINTs.fast}/url?alias=${alias}`;
 
     fetch(endpoint, {
         method: 'GET',
