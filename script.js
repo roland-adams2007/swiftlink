@@ -99,12 +99,7 @@ function isValidUrl(string) {
 /* ==============================================================
    5. ALIAS RESOLUTION + BIG 404 ON ERROR
    ============================================================== */
-const path = window.location.pathname;
-const alias = path.includes('index.html/')
-    ? path.split('index.html/')[1].trim()
-    : null;
-
-
+const alias = window.location.pathname.slice(1).trim();
 
 if (alias) {
     // Show loading overlay
