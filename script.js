@@ -130,11 +130,12 @@ if (alias) {
         .then(res => {
             overlay.remove();
 
-            if (res.status == 200 && res.data?.originalUrl) {
-                window.location.href = res.data.originalUrl;
+            if (res.status == 200 && res.data?.orginalUrl) {
+                window.location.href = res.data.orginalUrl;
             } else {
                 showBig404();
             }
+
         })
         .catch(err => {
             console.error('Redirect failed:', err);
