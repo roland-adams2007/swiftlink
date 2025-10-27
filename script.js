@@ -1,8 +1,8 @@
 lucide.createIcons();
 
 const API_ENDPOINTs = {
-    normal: "http://localhost:8080/url_backend/index.php",
-    fast: "http://localhost:5005/api"
+    normal: "https://projectapi.exambrite.com.ng/swiftlink/php/index.php",
+    fast: "https://projectapi.exambrite.com.ng/swiftlink/node"
 };
 
 /* ==============================================================
